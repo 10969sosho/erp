@@ -165,3 +165,5 @@ function FieldInput({ field, lookups, lookupName, compact, value, initialValue, 
 function EmptyState({ icon, title, message, action, onAction }: { icon:string; title:string; message:string; action?:string; onAction?:()=>void }) {
   return <div className="empty-state"><span>{icon}</span><h3>{title}</h3><p>{message}</p>{action && <button className="secondary-button" onClick={onAction}>{action}</button>}</div>;
 }
+
+const groupAccentColors: Record<string, string> = { 'Master Data':'#3b82f6', Purchasing:'#8b5cf6', Sales:'#ec4899', Inventory:'#f97316', Finance:'#10b981', 'CRM & Service':'#06b6d4', Platform:'#6366f1' };

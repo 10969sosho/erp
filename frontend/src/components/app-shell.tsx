@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { groups, resources } from '@/lib/resources';
 import { useSession } from '@/components/session-provider';
 
+const groupColors: Record<string, string> = { 'Master Data':'#3b82f6', Purchasing:'#8b5cf6', Sales:'#ec4899', Inventory:'#f97316', Finance:'#10b981', 'CRM & Service':'#06b6d4', Platform:'#6366f1' };
 const groupIcons: Record<string, string> = { 'Master Data':'MD', Purchasing:'PO', Sales:'SO', Inventory:'IV', Finance:'FN', 'CRM & Service':'CR', Platform:'PF' };
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -33,7 +34,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {groups.map((group) => {
           const items = filtered.filter((item) => item.group === group);
           if (!items.length) return null;
-          return <section className="nav-group" key={group}><button className="nav-group-button" onClick={() => toggle(group)}><span>{groupIcons[group]}</span>{group}<i>{expanded.includes(group) ? '-' : '+'}</i></button>{expanded.includes(group) && <div className="nav-children">{items.map((item) => <Link href={`/workspace/${item.slug}`} onClick={() => setOpen(false)} className={`nav-item ${item.slug === activeSlug ? 'nav-active' : ''}`} key={item.slug}><span className="nav-icon">{item.icon}</span>{item.title}</Link>)}</div>}</section>;
+          const accent = groupColors[group];
+          return <section className="nav-group" key={group}><button className="nav-group-button" onClick={() => toggle(group)}><span style={{background:`linear-gradient(135deg,${accent},${accent}cc)`}}>{groupIcons[group]}</span>{group}<i>{expanded.includes(group) ? '−' : '+'}</i></button>{expanded.includes(group) && <div className="nav-children">{items.map((item) => <Link href={`/workspace/${item.slug}`} onClick={() => setOpen(false)} className={`nav-item ${item.slug === activeSlug ? 'nav-active' : ''}`} key={item.slug}><span className="nav-icon" style={item.slug === activeSlug ? {background:`linear-gradient(135deg,${accent},${accent}cc)`,color:'#fff'} : {}}>{item.icon}</span>{item.title}</Link>)}</div>}</section>;
         })}
       </nav>
       <div className="sidebar-foot"><div className="avatar avatar-amber">{user?.name?.slice(0,2).toUpperCase() ?? 'US'}</div><div><b>{user?.name ?? 'User'}</b><span>{user?.email}</span></div><button onClick={logout} title="Keluar">OUT</button></div>
